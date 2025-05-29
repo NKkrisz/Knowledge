@@ -22,6 +22,25 @@ public class Main {
 
 ## Terminal Application Snippets
 
+### Logging
+
+#### General
+```
+\n //New line
+\t //Tab
+\\ //Breakout
+System.out.print(); //No line break
+System.out.println(); //Line break
+String.join(", ", ArrayList) //Convert ArrayList to String with "," separation and no brackets "[]"
+```
+
+#### System.out.printf();
+```
+%s //Strings
+%d //Numbers
+%f //Floating Numbers -> %0.2f - .00 precision
+```
+
 ### Example Class
 ```
 private class Kigyo {
@@ -64,25 +83,6 @@ private void loadFile(String fileName){
     }
 
     ArrayList<Kigyo> kigyok = new ArrayList<>();
-```
-
-### Logging
-
-#### General
-```
-\n //New line
-\t //Tab
-\\ //Breakout
-System.out.print(); //No line break
-System.out.println(); //Line break
-String.join(", ", ArrayList) //Convert ArrayList to String with "," separation and no brackets "[]"
-```
-
-#### System.out.printf();
-```
-%s //Strings
-%d //Numbers
-%f //Floating Numbers -> %0.2f - .00 precision
 ```
 
 ### Random
@@ -149,3 +149,206 @@ System.out.println("7) Minden Kobra mentve a kobra.txt fajlba");
 
 
 ## GUI (JavaFX) Application Snippets
+
+### Which Element Where?
+- Containers
+    - Vbox
+    - Hbox
+- Controls
+    - Button
+    - CheckBox
+    - Label
+    - ListView
+    - MenuBar
+    - TextArea
+    - TextField
+- Menu
+    - Menu
+    - MenuItem
+
+### Styling
+- Set VGrow to Always on elements to be responsive
+- Set Spacing and Padding to separate items from each other
+
+### Interactions
+- Give ```fx:id``` to elements
+- Refer to elements like this in the Controller: ```@FXML``` ```ElementType``` ```fx:id```
+- Start functions that are called with UI elements with ```@FXML```
+
+#### Setting Accelerator (Shortcut) With Scene Builder - CTRL + O Example
+- Select Element
+- Properties
+    - Accelerator
+        - Modifier 1: ```CONTROL_DOWN```
+        - Main Key: ```O```
+- Code
+    - On Action: ```fxmlFunctionName```
+
+### Clean Start
+
+#### App.java
+```
+package com.nkkrisz.task;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+
+public class App extends Application {
+    @Override
+    public void start(Stage stage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("Layout.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Task");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public static void main(String[] args) {
+        launch();
+    }
+}
+```
+
+#### Controller.java
+```
+package com.nkkrisz.task;
+
+public class Controller {
+
+}
+```
+
+#### Layout.fxml
+```
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+
+<VBox xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nkkrisz.task.Controller" />
+```
+
+## Logic
+
+### File Menu
+
+#### Load File From File Chooser (with .csv files allowed only and starting in project's directory)
+```
+private FileChooser fileChooser = new FileChooser();
+
+public void initialize(){
+    //Load into this project's directory by default
+    fileChooser.setInitialDirectory(new File("./"));
+    //Only accept .csv files
+    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(".csv Files", "*.csv"));
+}
+
+@FXML private void LoadFile(){
+    File file = fileChooser.showOpenDialog(ExampleButton.getScene().getWindow());
+
+    if(file != null){
+        //Restart everything so it only shows currently loaded data
+        kigyok.clear();
+        ExampleListView1.getItems().clear();
+        ExampleListView2.getItems().clear();
+        ExampleTextField.clear();
+        try{
+            //Load selected file
+            Scanner scanner = new Scanner(file);
+
+            //Skip header / first line
+            scanner.nextLine();
+
+            while(scanner.hasNextLine()){
+                Kigyo kigyo = new Kigyo(scanner.nextLine());
+                //Add item to ArrayList
+                kigyok.add(kigyo);
+                //Add item in ListView
+                ExampleListView1.getItems().add(String.format("%s (%dcm), %s", kigyo.faj, kigyo.hossz, kigyo.elofordulas));
+            }
+
+            //Close after done reading file
+            scanner.close();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+```
+
+#### Close Program
+```
+@FXML private void CloseProgram(){
+    Platform.exit();
+}
+```
+
+### About Menu
+```
+@FXML private void ShowAbout(){
+    Alert about = new Alert(Alert.AlertType.INFORMATION, "Task v.1.0.0\n(C) Copyright Owner");
+    about.setTitle("About");
+    about.setHeaderText("");
+    about.showAndWait();
+}
+```
+
+## Layout With MenuBar, 2 Menus, 2 ListViews, TextField, Button
+```
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.input.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nkkrisz.task.Controller">
+   <children>
+      <MenuBar>
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem fx:id="OpenMenuItem" mnemonicParsing="false" onAction="#LoadFile" text="Open">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem fx:id="CloseMenuItem" mnemonicParsing="false" onAction="#CloseProgram" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem fx:id="AboutMenuItem" mnemonicParsing="false" onAction="#ShowAbout" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <HBox spacing="10.0" VBox.vgrow="ALWAYS">
+         <children>
+            <ListView fx:id="ExampleListView1" prefHeight="300.0" prefWidth="300.0" HBox.hgrow="ALWAYS" />
+            <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox spacing="10.0">
+                     <children>
+                        <TextField fx:id="ExampleTextField" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="ExampleButton" mnemonicParsing="false" onAction="#Filter" text="Filter" />
+                     </children>
+                  </HBox>
+                  <ListView fx:id="ExampleListView2" prefHeight="250.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></ListView>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+   </children>
+</VBox>
+```
