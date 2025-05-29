@@ -5,9 +5,6 @@
 ### configDB.js
 
 ```
-import dotenv from 'dotenv';
-dotenv.config();
-
 export const configDB = {
         host     : 'localhost',
         user     : 'root',
@@ -20,6 +17,9 @@ export const configDB = {
 #### .env version
 
 ```
+import dotenv from 'dotenv';
+dotenv.config();
+
 export const configDB = {
         host     : process.env.DB_HOST,
         user     : process.env.DB_USER, 
