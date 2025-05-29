@@ -1,0 +1,209 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    background-color: bisque;
+}
+
+.container{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    align-items: center;
+    background-color: bisque;
+    gap: 1rem;
+    max-width: 1400px;
+    position: relative;
+}
+
+header{
+    width: 100%;
+    background-color: orange;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+#GoHomeButton{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 2rem;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+#SearchAndStuff{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
+    padding: 0 1rem;
+}
+
+#TextThing{
+    width: 150px;
+    border-left: 5px solid brown;
+    padding-left: 1rem;
+    text-indent: 1rem;
+    color: brown;
+    font-style: italic;
+    font-weight: bold;
+}
+
+#SearchInputContainer{
+    display: flex;
+    width: fit-content;
+    background-color: white;
+    height: 3rem;
+}
+
+#Search{
+    border: none;
+    outline: none;
+    padding: 1rem;
+}
+
+#SearchButton{
+    background-color: brown;
+    text-align: center;
+    height: 100%;
+    border: none;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+#Categories{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+}
+
+#CategoriesButtons{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+#Categories button{
+    border: none;
+    color: white;
+    background-color: brown;
+    text-align: center;
+    padding: 1rem;
+    border-radius: 10px;
+    width: 150px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#Categories button:hover{
+    background-color: lightcoral;
+}
+
+footer{
+    margin-top: auto;
+    width: 100%;
+    padding: 1rem;
+    background-color: orange;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+#Books{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    padding: 1rem;
+    align-items: center;
+}
+
+.Book{
+    display: flex;
+    background-color: white;
+    gap: 1rem;
+    border-radius: 10px;
+    width: 90%;
+    text-align: center;
+    padding: 1rem;
+}
+
+.BookDetail{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: start;
+    flex: 1;
+}
+
+.BookImage{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Book img{
+    width: 50%;
+    max-width: 300px;
+    height: auto;
+}
+
+.author, .rating{
+    text-align: end;
+}
+
+.author{
+    color: brown;
+    font-weight: bold;
+    font-size: larger;
+}
+
+.rating{
+    margin-top: auto;
+}
+
+.type{
+    color: gray;
+}
+
+.description{
+    text-indent: 1rem;
+}
+
+@media only screen and (max-width: 600px) {
+    .container{
+        gap: 0.5rem;
+    }
+    #SearchAndStuff{
+        flex-direction: column;
+        align-items: center;
+    }
+    #Categories{
+        text-align: start;
+        gap: 0.5rem;
+    }
+    #CategoriesButtons{
+        flex-wrap: nowrap;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    #Categories button{
+        padding: 0.5rem;
+    }
+  }
